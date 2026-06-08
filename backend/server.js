@@ -10,7 +10,6 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 const cors = require('cors');
 app.use(cors());
 
-app.use(cors());
 app.use(express.json());
 
 const { Pool } = require('pg');
