@@ -170,37 +170,28 @@ loadDropdowns();
 // 5. PDF Invoice Banane ka function
 // 5. PDF Invoice Banane ka PRO function
 // 5. PRO GST TAX INVOICE GENERATOR (Like the photo)
+// 5. PRO GST TAX INVOICE GENERATOR (Updated with simple columns)
 function downloadPDF(retailerName) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // ==========================================
-    // 1. PAGE BORDER & HEADER
-    // ==========================================
-    
-    // Pura page cover karne wala ek bada box (X, Y, Width, Height)
+    // 1. HEADER
     doc.rect(10, 10, 190, 277); 
-
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
     doc.text("TAX INVOICE", 105, 18, null, null, "center");
 
-    // Company Name & Details
     doc.setFontSize(20);
     doc.text("SHAH AGENCY", 105, 26, null, null, "center");
     
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
-    doc.text("Gar-Ali, Jorhat, Assam", 105, 31, null, null, "center");
-    doc.text("GSTIN: 18AAGFI8590M1ZL | State Code: 18 | Phone: +91 9876543210", 105, 36, null, null, "center");
+    doc.text("Doomdooma Town Tinsukia district, Assam", 105, 31, null, null, "center");
+    doc.text("GSTIN: 18AAGFI8590M1ZL | State Code: 18 | Phone: +91 6901978812", 105, 36, null, null, "center");
 
-    doc.line(10, 40, 200, 40); // Header ke niche ki line
+    doc.line(10, 40, 200, 40);
 
-    // ==========================================
-    // 2. BUYER & INVOICE DETAILS (Split Box)
-    // ==========================================
-    
-    // Billed To (Left Side)
+    // 2. BUYER & INVOICE DETAILS
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
     doc.text("Billed To (Buyer):", 12, 45);
@@ -209,10 +200,8 @@ function downloadPDF(retailerName) {
     doc.text("Jorhat, Assam", 12, 56);
     doc.text("State: Assam, Code: 18", 12, 61);
 
-    // Beech ki vertical line jo dabbe ko 2 hisso mein bategi
     doc.line(100, 40, 100, 65); 
 
-    // Invoice Info (Right Side)
     doc.setFont("helvetica", "bold");
     let randomInvoiceNo = "ID/" + Math.floor(Math.random() * 10000);
     doc.text(`Invoice No: ${randomInvoiceNo}`, 102, 45);
@@ -220,23 +209,17 @@ function downloadPDF(retailerName) {
     doc.setFont("helvetica", "normal");
     doc.text("Place of Supply: Assam (18)", 102, 61);
 
-    doc.line(10, 65, 200, 65); // Table se pehle ki line
+    doc.line(10, 65, 200, 65);
 
-    // ==========================================
-    // 3. ITEMS TABLE (Grid Theme)
-    // ==========================================
-    
-    // Photo jaisa column structure
+    // 3. ITEMS TABLE (Clean 5 Columns)
     const tableColumn = ["S.No", "Description of Goods", "Qty", "Rate", "Amount"];
     const tableRows = [];
     
-    // Abhi ke liye HSN code dummy "1905" daal rahe hain bill ke look ke liye
     for(let i=0; i<currentBill.length; i++) {
         let item = currentBill[i];
         let rowData = [
             i + 1, 
             item.name, 
-            "1905", 
             `${item.qty} pcs`, 
             item.price.toFixed(2), 
             item.total.toFixed(2)
@@ -244,7 +227,6 @@ function downloadPDF(retailerName) {
         tableRows.push(rowData);
     }
 
-    // autoTable ka 'grid' theme bilkul photo jaisa dabba banayega
     doc.autoTable({
         startY: 65,
         head: [tableColumn],
@@ -255,13 +237,9 @@ function downloadPDF(retailerName) {
         margin: { left: 10, right: 10 }
     });
 
-    let finalY = doc.lastAutoTable.finalY; // Table kahan khatam hui uska point
+    let finalY = doc.lastAutoTable.finalY;
 
-    // ==========================================
-    // 4. TAX BREAKDOWN (CGST/SGST)
-    // ==========================================
-    
-    // Photo jaisa look dene ke liye hum 9% CGST aur 9% SGST calculate kar rahe hain (Dummy/Visual purpose)
+    // 4. TAX BREAKDOWN
     let taxableValue = grandTotalValue;
     let cgstAmount = (taxableValue * 0.09).toFixed(2);
     let sgstAmount = (taxableValue * 0.09).toFixed(2);
@@ -270,7 +248,6 @@ function downloadPDF(retailerName) {
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
     
-    // Tax Layout
     doc.text("OUTPUT CGST @ 9%", 100, finalY + 8, null, null, "right");
     doc.text(cgstAmount, 190, finalY + 8, null, null, "right");
     
@@ -279,17 +256,13 @@ function downloadPDF(retailerName) {
 
     doc.line(10, finalY + 18, 200, finalY + 18);
 
-    // Final Total
     doc.setFontSize(12);
     doc.text("Grand Total:", 100, finalY + 25, null, null, "right");
     doc.text(`Rs. ${finalAmountWithTax}`, 190, finalY + 25, null, null, "right");
 
     doc.line(10, finalY + 30, 200, finalY + 30);
 
-    // ==========================================
-    // 5. BANK DETAILS & SIGNATURE (FOOTER)
-    // ==========================================
-    
+    // 5. FOOTER
     doc.setFontSize(9);
     doc.setFont("helvetica", "bold");
     doc.text("Company's Bank Details:", 12, finalY + 36);
@@ -298,15 +271,12 @@ function downloadPDF(retailerName) {
     doc.text("A/c No: 047305002771", 12, finalY + 46);
     doc.text("Branch & IFS Code: Jorhat & ICIC0000473", 12, finalY + 51);
 
-    doc.line(130, finalY + 30, 130, 287); // Signature ke liye alag box line
+    doc.line(130, finalY + 30, 130, 287); 
 
     doc.setFont("helvetica", "bold");
     doc.text("For SHAH AGENCY", 140, finalY + 36);
     doc.setFont("helvetica", "normal");
     doc.text("Authorized Signatory", 145, 280);
 
-    // ==========================================
-    // 6. SAVE
-    // ==========================================
     doc.save(`GST_Invoice_${retailerName}.pdf`);
 }
