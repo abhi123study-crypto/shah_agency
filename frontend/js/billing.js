@@ -16,7 +16,7 @@ const priceInput = document.getElementById('bill-price');
 async function loadDropdowns() {
     try {
         // Dukaandaron (Retailers) ko mangwana
-        const rResponse = await fetch('http://localhost:5000/api/retailers');
+        const rResponse = await fetch('https://shah-agency-here.onrender.com/api/retailers');
         const retailers = await rResponse.json();
         
         retailerSelect.innerHTML = '<option value="">-- Choose Shop --</option>';
@@ -26,7 +26,7 @@ async function loadDropdowns() {
         }
 
         // Products ko mangwana
-        const pResponse = await fetch('http://localhost:5000/api/products');
+        const pResponse = await fetch('https://shah-agency-here.onrender.com/api/products');
         allProducts = await pResponse.json();
         
         productSelect.innerHTML = '<option value="">-- Choose Item --</option>';
@@ -133,7 +133,7 @@ document.getElementById('generate-bill-btn').addEventListener('click', async fun
 
     try {
         // Backend (API) ko order bhejna
-        const response = await fetch('http://localhost:5000/api/orders', {
+        const response = await fetch('https://shah-agency-here.onrender.com/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(orderData)

@@ -10,7 +10,7 @@ let allPayments = []; // Data ko global save karenge taaki baar baar fetch na ka
 
 async function loadHistory() {
     try {
-        const response = await fetch('http://localhost:5000/api/payment-history');
+        const response = await fetch('https://shah-agency-here.onrender.com/api/payment-history');
         allPayments = await response.json();
 
         // Data aate hi dono views generate kar do

@@ -9,7 +9,7 @@ const payRetailerSelect = document.getElementById('pay-retailer');
 // 1. Database se saare retailers mangwana
 async function fetchRetailers() {
     try {
-        const response = await fetch('http://localhost:5000/api/retailers');
+        const response = await fetch('https://shah-agency-here.onrender.com/api/retailers');
         const retailers = await response.json();
         
         updateRetailerTable(retailers);
@@ -58,7 +58,7 @@ retailerForm.addEventListener('submit', async function(event) {
     };
 
     try {
-        const response = await fetch('http://localhost:5000/api/retailers', {
+        const response = await fetch('https://shah-agency-here.onrender.com/api/retailers', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newRetailer)
@@ -88,7 +88,7 @@ paymentForm.addEventListener('submit', async function(event) {
     }
 
     try {
-        const response = await fetch('http://localhost:5000/api/retailers/pay', {
+        const response = await fetch('https://shah-agency-here.onrender.com/api/retailers/pay', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

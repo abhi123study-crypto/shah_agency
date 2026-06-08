@@ -56,7 +56,7 @@ let allProducts = [];
 // 1. Updated fetch function to store products in the global variable
 async function fetchProducts() {
     try {
-        const response = await fetch('http://localhost:5000/api/products');
+        const response = await fetch('https://shah-agency-here.onrender.com/api/products');
         allProducts = await response.json(); 
         renderTable(allProducts); // Use renderTable instead of updateTable
     } catch (error) {
@@ -112,7 +112,7 @@ productForm.addEventListener('submit', async function(event) {
     };
 
     try {
-        const response = await fetch('http://localhost:5000/api/products', {
+        const response = await fetch('https://shah-agency-here.onrender.com/api/products', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newProduct) 
