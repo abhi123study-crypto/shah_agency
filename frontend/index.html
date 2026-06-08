@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Shah Agency</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <h2>Shah Agency</h2>
+
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="godown.html">Godown</a></li>
+            <li><a href="retailer.html">Retailers</a></li>
+            <li><a href="billing.html">Billing</a></li>
+            <li><a href="payment-history.html">Payment History</a></li>
+        </ul>
+    </nav>
+
+    <main class="dashboard-container">
+
+        <!-- Hero Section -->
+        <section class="dashboard-hero">
+            <div>
+                <h2>Welcome Back 👋</h2>
+                <p>
+                    Monitor inventory, retailer dues, cash flow and stock alerts
+                    from a single dashboard.
+                </p>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+
+            <a href="billing.html" class="action-btn">
+                ➕ Create Bill
+            </a>
+
+            <a href="retailer.html" class="action-btn">
+                🏪 Retailers
+            </a>
+
+            <a href="godown.html" class="action-btn">
+                📦 Godown
+            </a>
+
+            <a href="payment-history.html" class="action-btn">
+                💳 Payments
+            </a>
+
+        </section>
+
+        <!-- Statistics Cards -->
+        <section class="cards-wrapper">
+
+            <div class="card stock-card">
+                <h3>Stock Value</h3>
+                <p id="dash-value">₹ 0</p>
+            </div>
+
+            <div class="card udhaar-card">
+                <h3>Market Udhaar</h3>
+                <p id="dash-udhaar" style="color:#e74c3c;">₹ 0</p>
+            </div>
+
+            <div class="card cash-card">
+                <h3>Total Cash</h3>
+                <p id="dash-cash" style="color:#27ae60;">₹ 0</p>
+            </div>
+
+        </section>
+
+        <!-- Low Stock Alert -->
+        <section class="box-card alert-box">
+
+            <h3>⚠ Critical Low Stock Alerts</h3>
+
+            <div id="low-stock-content">
+                <p>No critical stock alerts.</p>
+            </div>
+
+        </section>
+
+        <!-- Main Grid -->
+        <section class="dashboard-grid">
+
+            <!-- Inventory -->
+            <div class="box-card">
+
+                <h3>📦 Agency Inventory</h3>
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="product-master-list">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <!-- Retailer Ledger -->
+            <div class="box-card">
+
+                <h3>🏪 Retailer Ledger</h3>
+
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Shop</th>
+                            <th>Pending Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="retailer-master-list">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="js/dashboard.js"></script>
+
+</body>
+</html>

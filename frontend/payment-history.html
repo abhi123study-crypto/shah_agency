@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment History - Shah Agency</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <h2>Shah Agency</h2>
+        <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="godown.html">Godown</a></li>
+            <li><a href="retailer.html">Retailers</a></li>
+            <li><a href="billing.html">Billing</a></li>
+            <li><a href="payment-history.html" style="color: #f1c40f;">History</a></li>
+        </ul>
+    </nav>
+
+    <main class="page-container">
+        <h1>Payment Ledger</h1>
+        
+        <!-- Toggle Buttons -->
+        <div style="margin-top: 10px; margin-bottom: 20px; display: flex; gap: 10px;">
+            <button id="btn-ledger" class="primary-btn" style="background-color: #2c3e50; border: none; padding: 10px 20px; cursor: pointer;" onclick="showView('ledger')">🏦 Bank Statement View</button>
+            <button id="btn-shop" class="primary-btn" style="background-color: #7f8c8d; border: none; padding: 10px 20px; cursor: pointer;" onclick="showView('shop')">🏪 Shop-wise View</button>
+        </div>
+
+        <!-- OPTION 1: Bank Statement (Ledger) View -->
+        <div id="ledger-view" class="box-card" style="display: block;">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">All Transactions</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Shop Name</th>
+                        <th style="text-align: right;">Amount Received</th>
+                    </tr>
+                </thead>
+                <tbody id="ledger-list">
+                    <!-- JS yahan list dalega -->
+                </tbody>
+                <tfoot>
+                    <tr style="background-color: #f1f2f6;">
+                        <td colspan="3" style="text-align: right; font-weight: bold; color: #2c3e50;">Grand Total Collection:</td>
+                        <td id="grand-total-ledger" style="color: #27ae60; font-weight: 900; font-size: 16px; text-align: right;">₹ 0.00</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- OPTION 2: Shop-wise View (Default hidden) -->
+        <div id="shop-wise-view" style="display: none;">
+            <!-- JS yahan har dukaan ke alag dabbe dalega -->
+        </div>
+
+    </main>
+
+    <script src="js/payment-history.js"></script>
+</body>
+</html>
