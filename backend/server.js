@@ -1,17 +1,13 @@
 // backend/server.js
 require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
 const { Pool } = require('pg');
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-const cors = require('cors');
+const express = require('express');
+const cors = require('cors'); // There should only be one line like this
 app.use(cors());
-
 app.use(express.json());
-
 const { Pool } = require('pg');
 
 const pool = new Pool({
