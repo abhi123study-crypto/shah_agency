@@ -152,6 +152,23 @@ app.get('/api/payment-history', async (req, res) => {
     }
 });
 
+// Admin Login API
+app.post('/api/login', (req, res) => {
+    const { username, password } = req.body;
+
+    // Yahan tu multiple users aur unke passwords set kar sakta hai
+    const validUsers = {
+        "abhishek": "shahadmin123",  // Tera main login
+        "staff": "staff123"          // Kisi aur ko access dene ke liye
+    };
+
+    if (validUsers[username] && validUsers[username] === password) {
+        res.json({ success: true, message: "Login Successful" });
+    } else {
+        res.status(401).json({ success: false, message: "Galat Username ya Password!" });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

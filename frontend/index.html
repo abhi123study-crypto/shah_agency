@@ -3,137 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Shah Agency</title>
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <title>Admin Login - Shah Agency</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f9; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .login-box { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 350px; 
+            text-align: center; 
+        }
+        input { 
+            width: 90%; 
+            padding: 12px; 
+            margin: 10px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            box-sizing: border-box; 
+        }
+        button { 
+            width: 100%; 
+            padding: 12px; 
+            background: #000; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            margin-top: 15px; 
+        }
+        button:hover { 
+            background: #333; 
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
+    <div class="login-box">
         <h2>Shah Agency</h2>
+        <p>Secure Admin Panel</p>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="loginAPI()">Login</button>
+    </div>
 
-        <ul>
-            <li><a href="index.html">Dashboard</a></li>
-            <li><a href="godown.html">Godown</a></li>
-            <li><a href="retailer.html">Retailers</a></li>
-            <li><a href="billing.html">Billing</a></li>
-            <li><a href="payment-history.html">Payment History</a></li>
-        </ul>
-    </nav>
+    <script>
+        function loginAPI() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
 
-    <main class="dashboard-container">
-
-    <section class="hero">
-
-        <div class="hero-content">
-            <span class="badge">BSc IT Major Project</span>
-
-            <h1 class="hero-title">
-    Godown Management<span></span>
-</h1>
-
-<p class="hero-subtitle">
-    Inventory • Billing • Retailers • Payments
-</p>
-
-            <p>
-                Smart inventory, billing and retailer management
-                platform developed by Abhishek Shah.
-            </p>
-
-            <div class="hero-actions">
-                <a href="billing.html" class="hero-btn primary">
-                    Create Bill
-                </a>
-
-                <a href="godown.html" class="hero-btn secondary">
-                    Manage Inventory
-                </a>
-            </div>
-        </div>
-
-    </section>
-
-    <section class="stats-section">
-
-        <div class="stat-card stock-card">
-            <span>Stock Value</span>
-            <h2 id="dash-value">₹ 0</h2>
-        </div>
-
-        <div class="stat-card udhaar-card">
-            <span>Market Udhaar</span>
-            <h2 id="dash-udhaar">₹ 0</h2>
-        </div>
-
-        <div class="stat-card cash-card">
-            <span>Total Cash</span>
-            <h2 id="dash-cash">₹ 0</h2>
-        </div>
-
-    </section>
-
-    <section class="alert-section">
-
-        <div class="glass-card">
-
-            <h3>Critical Low Stock Alerts</h3>
-
-            <div id="low-stock-content">
-                No critical stock alerts.
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="dashboard-grid">
-
-        <div class="glass-card">
-
-            <div class="card-header">
-                <h3>Agency Inventory</h3>
-            </div>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Stock</th>
-                    </tr>
-                </thead>
-
-                <tbody id="product-master-list"></tbody>
-            </table>
-
-        </div>
-
-        <div class="glass-card">
-
-            <div class="card-header">
-                <h3>Retailer Ledger</h3>
-            </div>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Shop</th>
-                        <th>Pending Amount</th>
-                    </tr>
-                </thead>
-
-                <tbody id="retailer-master-list"></tbody>
-            </table>
-
-        </div>
-
-    </section>
-
-</main>
-
-    <script src="js/dashboard.js"></script>
-
+            // Direct local check (Render server ka wait nahi karega)
+            if (user === 'abhishek' && pass === 'shahadmin123') {
+                
+                // Token set kar raha hai taaki andar wale pages khul sakein
+                localStorage.setItem('auth_token', 'shah_agency_secure_token');
+                
+                // Seedha Dashboard par bhej dega
+                window.location.href = 'dashboard.html';
+                
+            } else {
+                alert('Galat Username ya Password! Wapas try kar.');
+            }
+        }
+    </script>
 </body>
 </html>

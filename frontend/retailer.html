@@ -4,7 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retailers - Shah Agency</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css"><script>
+    // Agar valid login token nahi hai, toh wapas login page par bhej do
+    if (localStorage.getItem('auth_token') !== 'shah_agency_secure_token') {
+        window.location.href = 'index.html';
+    }
+    
+    // Navbar ke liye logout function
+    function logout() {
+        localStorage.removeItem('auth_token');
+        window.location.href = 'index.html';
+    }
+</script>
 </head>
 <body>
 
