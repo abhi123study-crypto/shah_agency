@@ -102,13 +102,13 @@ productForm.addEventListener('submit', async function(event) {
         finalCategory = customCategoryInput.value; 
     }
 
-    const newProduct = {
+   const newProduct = {
         name: document.getElementById('p-name').value,
         category: finalCategory, 
-      price: parseFloat(document.getElementById('p-price').value),
-        stock: document.getElementById('p-stock').value,
+        price: parseFloat(document.getElementById('p-price').value),
+        stock: parseInt(document.getElementById('p-stock').value),    // Yahan parseInt lagaya
         sku: document.getElementById('p-sku').value,
-        gstRate: document.getElementById('p-gst-rate').value
+        gstRate: parseFloat(document.getElementById('p-gst-rate').value) // Yahan parseFloat lagaya
     };
 
     try {
