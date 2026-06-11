@@ -6,28 +6,27 @@
     <title>Godown - Shah Agency</title>
     <link rel="stylesheet" href="css/style.css">
     <script>
-    // Agar valid login token nahi hai, toh wapas login page par bhej do
+    // Security Lock
     if (localStorage.getItem('auth_token') !== 'shah_agency_secure_token') {
         window.location.href = 'index.html';
     }
-    
-    // Navbar ke liye logout function
     function logout() {
         localStorage.removeItem('auth_token');
         window.location.href = 'index.html';
     }
-</script>
+    </script>
 </head>
 <body>
 
     <nav class="navbar">
         <h2>Shah Agency</h2>
         <ul>
-            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
             <li><a href="godown.html">Godown</a></li>
             <li><a href="retailer.html">Retailers</a></li>
             <li><a href="billing.html">Billing</a></li>
             <li><a href="payment-history.html">Payment History</a></li> 
+            <li><a href="#" onclick="logout()" style="color: #ff4d4d; font-weight: bold;">Logout</a></li>
         </ul>
     </nav>
 
@@ -36,8 +35,10 @@
         
         <div class="split-layout">
             <div class="form-section box-card">
-                <h3>Add New Product</h3>
-               <form id="add-product-form">
+                <h3>Add / Edit Product</h3>
+                <form id="add-product-form">
+                    <input type="hidden" id="edit-mode-sku" value="">
+
                     <div class="input-group">
                         <label>Product Name</label>
                         <input type="text" id="p-name" required placeholder="e.g. Parle-G Gold">
@@ -54,7 +55,6 @@
                             <option value="Packaged Foods">Packaged Foods</option>
                             <option value="Other">Other (Add Custom Category)...</option>
                         </select>
-                        
                         <input type="text" id="custom-category" placeholder="Type custom category name here" style="display: none; width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-top: 10px; font-family: inherit;">
                     </div>
 
@@ -62,10 +62,11 @@
                         <label>Price (₹)</label>
                         <input type="number" id="product-price" step="0.01" placeholder="Enter Price" required>
                     </div>
+
                     <div class="input-group">
-    <label>GST Rate (%)</label>
-    <input type="number" id="p-gst-rate" value="18" step="0.1" required>
-</div>
+                        <label>GST Rate (%)</label>
+                        <input type="number" id="p-gst-rate" value="18" step="0.1" required>
+                    </div>
 
                     <div class="input-group">
                         <label>Initial Stock (Qty)</label>
@@ -77,36 +78,35 @@
                         <input type="text" id="p-sku" required placeholder="e.g. PARLE-G-10">
                     </div>
 
-                    <button type="submit" class="primary-btn">Save Product</button>
+                    <button type="submit" id="submit-btn" class="primary-btn">Save Product</button>
                 </form>
             </div>
 
             <div class="box-card">
-    <h3>Current Stock</h3>
-    
-    <div style="margin-bottom: 1rem;">
-        <input type="text" id="search-input" placeholder="Search by name, SKU or category..." 
-               style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 2px; font-family: inherit;">
-    </div>
+                <h3>Current Stock</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" id="search-input" placeholder="Search by name, SKU or category..." 
+                           style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 2px; font-family: inherit;">
+                </div>
 
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>SKU</th>
-                <th>NAME</th>
-                <th>CATEGORY</th>
-                <th>PRICE</th>
-                <th>STOCK</th>
-            </tr>
-        </thead>
-        <tbody id="product-list">
-        </tbody>
-    </table>
-</div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>NAME</th>
+                            <th>CATEGORY</th>
+                            <th>PRICE</th>
+                            <th>STOCK</th>
+                            <th>ACTION</th> </tr>
+                    </thead>
+                    <tbody id="product-list">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </main>
 
     <script src="js/godown.js"></script>
-
-    </body>
+</body>
 </html>
