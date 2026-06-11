@@ -4,99 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Retailers - Shah Agency</title>
-    <link rel="stylesheet" href="css/style.css"><script>
-    // Agar valid login token nahi hai, toh wapas login page par bhej do
+    <link rel="stylesheet" href="css/style.css">
+    <script>
     if (localStorage.getItem('auth_token') !== 'shah_agency_secure_token') {
         window.location.href = 'index.html';
     }
-    
-    // Navbar ke liye logout function
     function logout() {
         localStorage.removeItem('auth_token');
         window.location.href = 'index.html';
     }
-</script>
+    </script>
 </head>
 <body>
 
     <nav class="navbar">
         <h2>Shah Agency</h2>
         <ul>
-            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
             <li><a href="godown.html">Godown</a></li>
             <li><a href="retailer.html">Retailers</a></li>
             <li><a href="billing.html">Billing</a></li>
             <li><a href="payment-history.html">Payment History</a></li> 
+            <li><a href="#" onclick="logout()" style="color: #ff4d4d; font-weight: bold;">Logout</a></li>
         </ul>
     </nav>
 
     <main class="page-container">
-        <h1>Retailer Management (Ledger)</h1>
+        <h1>Retailer Management</h1>
         
         <div class="split-layout">
+            
             <div class="form-section box-card">
                 <h3>Add New Retailer</h3>
                 <form id="add-retailer-form">
                     <div class="input-group">
-                        <label>Shop Name</label>
-                        <input type="text" id="r-shop" required placeholder="e.g. Gupta General Store">
+                        <label>SHOP NAME</label>
+                        <input type="text" id="r-shop-name" required placeholder="e.g. Sharma Store">
                     </div>
                     <div class="input-group">
-                        <label>Owner Name</label>
-                        <input type="text" id="r-owner" required placeholder="e.g. Rahul Gupta">
+                        <label>OWNER NAME</label>
+                        <input type="text" id="r-owner-name" required placeholder="e.g. Pankaj Sharma">
                     </div>
                     <div class="input-group">
-                        <label>Phone Number</label>
-                        <input type="tel" id="r-phone" required placeholder="9876543210">
+                        <label>PHONE NUMBER</label>
+                        <input type="text" id="r-phone" required placeholder="e.g. 7281904209">
                     </div>
                     <div class="input-group">
-                        <label>Address</label>
-                        <input type="text" id="r-address" required placeholder="Main Market, Shop no 4">
+                        <label>ADDRESS</label>
+                        <input type="text" id="r-address" required placeholder="e.g. Rupai Siding">
                     </div>
                     <div class="input-group">
                         <label>GST PIN</label>
                         <input type="text" id="r-gst" placeholder="Optional">
                     </div>
-                    <button type="submit" class="primary-btn">Save Retailer</button>
+
+                    <button type="submit" id="submit-retailer-btn" class="primary-btn">Save Retailer</button>
                 </form>
 
-                <div style="margin-top: 30px; border-top: 2px dashed #ccc; padding-top: 20px;">
-                    <h3 style="color: #27ae60;">Receive Payment 💰</h3>
-                    <form id="payment-form">
-                        <div class="input-group">
-                            <label for="pay-retailer">Select Retailer</label>
-                            <select id="pay-retailer" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: inherit;">
-                                <option value="">-- Choose Shop --</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label for="pay-amount">Amount Received (₹)</label>
-                            <input type="number" id="pay-amount" placeholder="Enter amount e.g. 2000" required>
-                        </div>
-                        <button type="submit" class="primary-btn" style="background-color: #27ae60; border-color: #27ae60;">Update Balance</button>
-                    </form>
-                </div>
-                </div>
+                <hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ccc;">
+                
+                <h3 style="color: #28a745;">Receive Payment 💰</h3>
+                <form id="receive-payment-form">
+                    <div class="input-group">
+                        <label>SELECT RETAILER</label>
+                        <select id="pay-retailer-select" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                            <option value="">-- Choose Shop --</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>AMOUNT RECEIVED (₹)</label>
+                        <input type="number" id="pay-amount" placeholder="e.g. 5000">
+                    </div>
+                    <button type="button" class="primary-btn" style="background-color: #28a745;">Update Payment</button>
+                </form>
+            </div>
 
-            <div class="list-section box-card">
+            <div class="box-card">
                 <h3>Retailer List & Pending Balance</h3>
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Shop Name</th>
-                            <th>Owner</th>
-                            <th>Phone</th>
-                            <th>Pending Balance</th>
+                            <th>SHOP NAME</th>
+                            <th>OWNER</th>
+                            <th>PHONE</th>
+                            <th>PENDING BALANCE</th>
                         </tr>
                     </thead>
                     <tbody id="retailer-list">
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
+            
         </div>
     </main>
-    
-    <script src="js/retailer.js"></script>
 
+    <script src="js/retailer.js"></script>
 </body>
 </html>

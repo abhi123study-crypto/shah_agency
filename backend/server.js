@@ -5,25 +5,19 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware
 app.use(cors());
-app.use(express.json()); // Frontend se aane wale JSON data ko samajhne ke liye
+app.use(express.json()); 
 
-// Database Connection (PostgreSQL)
-// Vercel/Render par environment variables se URL aayega
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL, 
     ssl: {
-        rejectUnauthorized: false // Cloud database connections ke liye zaroori
+        rejectUnauthorized: false 
     }
 });
 
-// ==========================================
-// 1. ADMIN LOGIN API
-// ==========================================
+// --- 1. ADMIN LOGIN API ---
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-
     if (username === 'abhishek' && password === 'shahadmin123') {
         res.json({ success: true, message: "Login Successful" });
     } else {
@@ -31,77 +25,76 @@ app.post('/api/login', (req, res) => {
     }
 });
 
-// ==========================================
-// 2. GET ALL PRODUCTS (Godown list ke liye)
-// ==========================================
+// --- 2. GODOWN: GET ALL PRODUCTS ---
 app.get('/api/products', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM products ORDER BY name ASC');
         res.json(result.rows);
     } catch (err) {
-        console.error("Fetch Error:", err.message);
-        res.status(500).send("Database se data nikalne mein error aaya.");
+        res.status(500).send("Database fetch error");
+    }
+});
+
+// --- 3. GODOWN: ADD NEW PRODUCT ---
+app.post('/api/products', async (req, res) => {
+    const { name, category, price, stock, sku, gstRate } = req.body;
+    try {
+        const insertQuery = `INSERT INTO products (sku, name, category, price, stock, gst_rate) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`;
+        const result = await pool.query(insertQuery, [sku, name, category, price, stock, gstRate]);
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        if (err.code === '23505') res.status(400).send("SKU already exists!");
+        else res.status(500).send("Failed to save product.");
+    }
+});
+
+// --- 4. GODOWN: UPDATE PRODUCT ---
+app.put('/api/products/:sku', async (req, res) => {
+    const sku = req.params.sku;
+    const { name, category, price, stock, gstRate } = req.body;
+    try {
+        const updateQuery = `UPDATE products SET name = $1, category = $2, price = $3, stock = $4, gst_rate = $5 WHERE sku = $6 RETURNING *;`;
+        const result = await pool.query(updateQuery, [name, category, price, stock, gstRate, sku]);
+        if (result.rows.length === 0) return res.status(404).send("Product not found!");
+        res.status(200).json({ message: "Updated successfully", product: result.rows[0] });
+    } catch (error) {
+        res.status(500).send("Failed to update product");
     }
 });
 
 // ==========================================
-// 3. ADD NEW PRODUCT (Naya item save karna)
+// --- 5. RETAILER: GET ALL RETAILERS ---
 // ==========================================
-app.post('/api/products', async (req, res) => {
-    const { name, category, price, stock, sku, gstRate } = req.body;
-    
+app.get('/api/retailers', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM retailers ORDER BY shop_name ASC');
+        res.json(result.rows);
+    } catch (err) {
+        console.error("Fetch Retailers Error:", err.message);
+        res.status(500).send("Database se retailers nikalne mein error aaya.");
+    }
+});
+
+// ==========================================
+// --- 6. RETAILER: ADD NEW RETAILER ---
+// ==========================================
+app.post('/api/retailers', async (req, res) => {
+    const { shopName, ownerName, phone, address, gstPin } = req.body;
     try {
         const insertQuery = `
-            INSERT INTO products (sku, name, category, price, stock, gst_rate) 
+            INSERT INTO retailers (shop_name, owner_name, phone, address, gst, pending_balance) 
             VALUES ($1, $2, $3, $4, $5, $6) 
             RETURNING *;
         `;
-        const values = [sku, name, category, price, stock, gstRate];
+        const values = [shopName, ownerName, phone, address, gstPin || null, 0];
         const result = await pool.query(insertQuery, values);
-        
         res.status(201).json(result.rows[0]);
     } catch (err) {
-        console.error("Insert Error:", err.message);
-        // Error Code 23505 ka matlab hai 'Duplicate SKU'
-        if (err.code === '23505') { 
-            res.status(400).send("Bhai, yeh SKU pehle se database mein hai!");
-        } else {
-            res.status(500).send("Server Error: Product save nahi ho paya.");
-        }
+        console.error("Insert Retailer Error:", err.message);
+        res.status(500).send("Server Error: Retailer save nahi ho paya.");
     }
 });
 
-// ==========================================
-// 4. UPDATE EXISTING PRODUCT (Edit Feature)
-// ==========================================
-app.put('/api/products/:sku', async (req, res) => {
-    const sku = req.params.sku; // URL se purana SKU pakda
-    const { name, category, price, stock, gstRate } = req.body; // Form se naya data pakda
-
-    try {
-        const updateQuery = `
-            UPDATE products 
-            SET name = $1, category = $2, price = $3, stock = $4, gst_rate = $5 
-            WHERE sku = $6 
-            RETURNING *;
-        `;
-        const values = [name, category, price, stock, gstRate, sku];
-        const result = await pool.query(updateQuery, values);
-
-        if (result.rows.length === 0) {
-            return res.status(404).send("Product nahi mila!");
-        }
-
-        res.status(200).json({ message: "Product Update ho gaya!", product: result.rows[0] });
-    } catch (error) {
-        console.error("Database Update Error:", error.message);
-        res.status(500).send("Failed to update product in database");
-    }
-});
-
-// ==========================================
-// SERVER START
-// ==========================================
 app.listen(port, () => {
-    console.log(`Bhai, Server ekdum mast chal raha hai Port: ${port} par!`);
+    console.log(`Backend mast chal raha hai Port: ${port} par!`);
 });
