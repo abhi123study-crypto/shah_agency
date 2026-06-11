@@ -105,7 +105,7 @@ productForm.addEventListener('submit', async function(event) {
     const newProduct = {
         name: document.getElementById('p-name').value,
         category: finalCategory, 
-        price: document.getElementById('p-price').value,
+      price: parseFloat(document.getElementById('p-price').value),
         stock: document.getElementById('p-stock').value,
         sku: document.getElementById('p-sku').value,
         gstRate: document.getElementById('p-gst-rate').value
