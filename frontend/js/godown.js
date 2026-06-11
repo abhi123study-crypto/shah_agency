@@ -105,7 +105,7 @@ productForm.addEventListener('submit', async function(event) {
    const newProduct = {
         name: document.getElementById('p-name').value,
         category: finalCategory, 
-        price: parseFloat(document.getElementById('p-price').value),
+        price: parseFloat(document.getElementById('product-price').value), // Debugging line
         stock: parseInt(document.getElementById('p-stock').value),    // Yahan parseInt lagaya
         sku: document.getElementById('p-sku').value,
         gstRate: parseFloat(document.getElementById('p-gst-rate').value) // Yahan parseFloat lagaya
