@@ -133,7 +133,7 @@ productForm.addEventListener('submit', async function(event) {
             customCategoryInput.required = false;
             
             // Reset Edit Mode
-            document.getElementById('edit-mode-sku').value = '';
+            document.getElementById('editSku').value = '';
             document.getElementById('p-sku').readOnly = false;
             document.getElementById('p-sku').style.backgroundColor = '#fff';
             submitBtn.innerText = "Save Product";
