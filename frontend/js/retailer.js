@@ -56,7 +56,7 @@ retailerForm.addEventListener('submit', async function(event) {
             retailerForm.reset();
             submitBtn.innerText = "Save Retailer";
             fetchRetailers(); // List refresh
-            alert("Retailer mast save ho gaya bhai!");
+            alert("Saved Retailer ADMIN!");
         } else {
             // Yahan Asli Error dikhega
             const errorText = await response.text();
@@ -70,5 +70,4 @@ retailerForm.addEventListener('submit', async function(event) {
     }
 });
 
-// Page load hote hi data le aao
 fetchRetailers();
