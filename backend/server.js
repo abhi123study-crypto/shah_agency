@@ -62,9 +62,7 @@ app.put('/api/products/:sku', async (req, res) => {
     }
 });
 
-// ==========================================
 // --- 5. RETAILER: GET ALL RETAILERS ---
-// ==========================================
 app.get('/api/retailers', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM retailers ORDER BY shop_name ASC');
@@ -75,12 +73,7 @@ app.get('/api/retailers', async (req, res) => {
     }
 });
 
-// ==========================================
 // --- 6. RETAILER: ADD NEW RETAILER ---
-// ==========================================
-// ==========================================
-// --- 6. RETAILER: ADD NEW RETAILER ---
-// ==========================================
 app.post('/api/retailers', async (req, res) => {
     const { shopName, ownerName, phone, address, gstPin } = req.body;
     try {
@@ -94,8 +87,34 @@ app.post('/api/retailers', async (req, res) => {
         res.status(201).json(result.rows[0]);
     } catch (err) {
         console.error("Insert Retailer Error:", err.message);
+        res.status(500).send("Database Error: " + err.message);
+    }
+});
+
+// ==========================================
+// --- 7. RETAILER: UPDATE PAYMENT API ---
+// ==========================================
+// ==========================================
+// --- 7. RETAILER: UPDATE PAYMENT API ---
+// ==========================================
+app.put('/api/retailers/:id/pay', async (req, res) => {
+    const retailerId = req.params.id;
+    const { amount } = req.body;
+    
+    try {
+        const updateQuery = `
+            UPDATE retailers 
+            SET pending_balance = pending_balance - $1 
+            WHERE id = $2 
+            RETURNING *;
+        `;
+        const result = await pool.query(updateQuery, [amount, retailerId]);
         
-        res.status(500).send("Database Error: " + err.message); 
+        if (result.rows.length === 0) return res.status(404).send("Retailer nahi mila!");
+        res.status(200).json({ message: "Payment updated", retailer: result.rows[0] });
+    } catch (err) {
+        console.error("Payment Error:", err.message);
+        res.status(500).send("Database Error: " + err.message);
     }
 });
 

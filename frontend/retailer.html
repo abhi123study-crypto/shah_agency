@@ -67,15 +67,15 @@
                 <form id="receive-payment-form">
                     <div class="input-group">
                         <label>SELECT RETAILER</label>
-                        <select id="pay-retailer-select" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        <select id="pay-retailer-select" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">-- Choose Shop --</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <label>AMOUNT RECEIVED (₹)</label>
-                        <input type="number" id="pay-amount" placeholder="e.g. 5000">
+                        <input type="number" id="pay-amount" required placeholder="e.g. 5000">
                     </div>
-                    <button type="button" class="primary-btn" style="background-color: #28a745;">Update Payment</button>
+                    <button type="button" id="update-payment-btn" class="primary-btn" style="background-color: #28a745;">Update Payment</button>
                 </form>
             </div>
 
@@ -91,7 +91,7 @@
                         </tr>
                     </thead>
                     <tbody id="retailer-list">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
             
