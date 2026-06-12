@@ -58,7 +58,7 @@ function renderShopWiseView() {
     shopWiseView.innerHTML = '';
     
     if(allPayments.length === 0) {
-        shopWiseView.innerHTML = '<h3>Abhi tak koi payment receive nahi hui hai.</h3>';
+        shopWiseView.innerHTML = '<h3>Doesn\'t receive any payment.</h3>';
         return;
     }
 

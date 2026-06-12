@@ -1,55 +1,40 @@
 // frontend/js/dashboard.js
 
-async function loadDashboard() {
+async function loadDashboardStats() {
     try {
-        console.log("Fetching dashboard data..."); // Check karne ke liye
-        const response = await fetch('https://shah-agency-here.onrender.com/api/dashboard');
+        console.log("Fetching dashboard data...");
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log("Data Received:", data); // Console mein data check karne ke liye
+        // 1. STOCK VALUE CALCULATE KARNA
+        const prodResponse = await fetch('https://shah-agency-here.onrender.com/api/products');
+        if (prodResponse.ok) {
+            const products = await prodResponse.json();
+            let totalStockValue = 0;
+            
+            products.forEach(item => {
+                totalStockValue += (parseFloat(item.price) * parseInt(item.stock));
+            });
 
-        // 1. Stats Cards
-        document.getElementById('dash-value').innerText = `₹ ${data.totalValue.toLocaleString('en-IN')}`;
-        document.getElementById('dash-udhaar').innerText = `₹ ${data.totalUdhaar.toLocaleString('en-IN')}`;
-        document.getElementById('dash-cash').innerText = `₹ ${data.totalCashReceived.toLocaleString('en-IN')}`;
-
-        // 2. Low Stock Alerts
-        const alertContent = document.getElementById('low-stock-content');
-        if (data.lowStock && data.lowStock.length > 0) {
-            alertContent.innerHTML = data.lowStock.map(i => `
-                <p style="color: #c0392b; font-weight: bold; margin-bottom: 5px;">⚠ ${i.name}: Only ${i.stock} left!</p>
-            `).join('');
-        } else {
-            alertContent.innerHTML = '<p>No critical stock alerts.</p>';
+            document.getElementById('stock-value-display').innerText = 
+                '₹ ' + totalStockValue.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        // 3. Inventory List
-        const pList = document.getElementById('product-master-list');
-        pList.innerHTML = data.products.map(p => `
-            <tr>
-                <td>${p.name}</td>
-                <td style="font-weight:bold;">${p.stock}</td>
-            </tr>
-        `).join('');
+        // 2. MARKET UDHAAR CALCULATE KARNA
+        const retResponse = await fetch('https://shah-agency-here.onrender.com/api/retailers');
+        if (retResponse.ok) {
+            const retailers = await retResponse.json();
+            let totalUdhaar = 0;
+            
+            retailers.forEach(shop => {
+                totalUdhaar += parseFloat(shop.pending_balance || 0);
+            });
 
-        // 4. Retailer Ledger
-        const rList = document.getElementById('retailer-master-list');
-        rList.innerHTML = data.retailers.map(r => `
-            <tr>
-                <td>${r.shop_name}</td>
-                <td style="color:red; font-weight:bold;">₹${r.pending_balance.toLocaleString('en-IN')}</td>
-            </tr>
-        `).join('');
-        
+            document.getElementById('udhaar-value-display').innerText = 
+                '₹ ' + totalUdhaar.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
     } catch (error) {
-        console.error("Dashboard fetch error:", error);
-        alert("Dashboard data load nahi ho pa raha hai! Console check karo.");
+        console.error("Dashboard Data fetch error:", error);
     }
 }
 
-// Page load hote hi chalayein
-loadDashboard();
+loadDashboardStats();

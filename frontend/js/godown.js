@@ -1,3 +1,5 @@
+// frontend/js/godown.js
+
 const productForm = document.getElementById('add-product-form');
 const productList = document.getElementById('product-list');
 const categorySelect = document.getElementById('p-category');
@@ -34,16 +36,32 @@ async function fetchProducts() {
     }
 }
 
-// Render Table with EDIT Button
+// Render Table with EDIT Button AND Low Stock Alert
 function renderTable(products) {
     productList.innerHTML = ''; 
     products.forEach(item => {
+        
+        // ==========================================
+        // 🔥 LOW STOCK LOGIC (Limit set to 100)
+        // ==========================================
+        let stockStyle = '';
+        let warningIcon = '';
+
+        if (item.stock <= 100) {
+            stockStyle = 'background-color: #dc3545; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold;';
+            warningIcon = ' ⚠️ Low';
+        } else {
+            stockStyle = 'font-weight: 600; color: #28a745;'; // Green color for safe stock
+        }
+
         productList.innerHTML += `<tr>
             <td>${item.sku}</td>
             <td>${item.name}</td>
             <td><span style="background-color: #f1f1f1; padding: 2px 8px; border-radius: 2px; font-size: 0.8rem;">${item.category}</span></td>
             <td>₹ ${item.price}</td>
-            <td style="font-weight: 600;">${item.stock}</td>
+            
+            <td><span style="${stockStyle}">${item.stock}${warningIcon}</span></td>
+            
             <td>
                 <button onclick="editProduct('${item.sku}')" style="background-color: #ffc107; color: #000; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">Edit</button>
             </td>

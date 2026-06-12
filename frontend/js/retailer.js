@@ -55,10 +55,10 @@ retailerForm.addEventListener('submit', async function(event) {
         if (response.ok) {
             retailerForm.reset();
             submitBtn.innerText = "Save Retailer";
-            fetchRetailers(); // List refresh
+            fetchRetailers(); 
             alert("Saved Retailer ADMIN!");
         } else {
-            // Yahan Asli Error dikhega
+            
             const errorText = await response.text();
             alert("Backend Error: " + errorText);
             submitBtn.innerText = "Save Retailer";

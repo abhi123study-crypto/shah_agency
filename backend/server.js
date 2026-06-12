@@ -21,7 +21,7 @@ app.post('/api/login', (req, res) => {
     if (username === 'abhishek' && password === 'shahadmin123') {
         res.json({ success: true, message: "Login Successful" });
     } else {
-        res.status(401).json({ success: false, message: "Galat Username ya Password!" });
+        res.status(401).json({ success: false, message: "Wrong Username or Password!" });
     }
 });
 
@@ -78,6 +78,9 @@ app.get('/api/retailers', async (req, res) => {
 // ==========================================
 // --- 6. RETAILER: ADD NEW RETAILER ---
 // ==========================================
+// ==========================================
+// --- 6. RETAILER: ADD NEW RETAILER ---
+// ==========================================
 app.post('/api/retailers', async (req, res) => {
     const { shopName, ownerName, phone, address, gstPin } = req.body;
     try {
@@ -91,10 +94,11 @@ app.post('/api/retailers', async (req, res) => {
         res.status(201).json(result.rows[0]);
     } catch (err) {
         console.error("Insert Retailer Error:", err.message);
-        res.status(500).send("Server Error: Retailer save nahi ho paya.");
+        
+        res.status(500).send("Database Error: " + err.message); 
     }
 });
 
 app.listen(port, () => {
-    console.log(`Backend mast chal raha hai Port: ${port} par!`);
+    console.log(`Backend is working good: ${port} par!`);
 });

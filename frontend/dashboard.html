@@ -4,147 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Shah Agency</title>
-
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css"><script>
-    // Agar valid login token nahi hai, toh wapas login page par bhej do
+    <script>
     if (localStorage.getItem('auth_token') !== 'shah_agency_secure_token') {
         window.location.href = 'index.html';
     }
-    
-    // Navbar ke liye logout function
     function logout() {
         localStorage.removeItem('auth_token');
         window.location.href = 'index.html';
     }
-</script>
+    </script>
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <h2>Shah Agency</h2>
-
         <ul>
-            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
             <li><a href="godown.html">Godown</a></li>
             <li><a href="retailer.html">Retailers</a></li>
             <li><a href="billing.html">Billing</a></li>
-            <li><a href="payment-history.html">Payment History</a></li>
+            <li><a href="payment-history.html">Payment History</a></li> 
+            <li><a href="#" onclick="logout()" style="color: #ff4d4d; font-weight: bold;">Logout</a></li>
         </ul>
     </nav>
 
-    <main class="dashboard-container">
-
-    <section class="hero">
-
-        <div class="hero-content">
-            <span class="badge">BSc IT Major Project</span>
-
-            <h1 class="hero-title">
-    Godown Management<span></span>
-</h1>
-
-<p class="hero-subtitle">
-    Inventory • Billing • Retailers • Payments
-</p>
-
-            <p>
-                Smart inventory, billing and retailer management
-                platform developed by Abhishek Shah.
+    <main class="page-container">
+        
+        <div class="box-card" style="background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); margin-bottom: 2rem; border: none; padding: 3rem;">
+            <span style="background-color: #e2e8f0; color: #4a5568; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">BSc IT Major Project</span>
+            <h1 style="font-size: 3rem; color: #2d3748; margin: 15px 0 5px 0;">Godown Management</h1>
+            <p style="color: #718096; font-weight: 500; margin-bottom: 20px;">Inventory • Billing • Retailers • Payments</p>
+            <p style="color: #718096; max-width: 500px; line-height: 1.5; margin-bottom: 25px;">
+                Smart inventory, billing and retailer management platform developed by Abhishek Shah.
             </p>
-
-            <div class="hero-actions">
-                <a href="billing.html" class="hero-btn primary">
-                    Create Bill
-                </a>
-
-                <a href="godown.html" class="hero-btn secondary">
-                    Manage Inventory
-                </a>
+            
+            <div style="display: flex; gap: 15px;">
+                <button onclick="window.location.href='billing.html'" class="primary-btn" style="background-color: #5a67d8; width: auto; padding: 10px 20px;">Create Bill</button>
+                <button onclick="window.location.href='godown.html'" class="primary-btn" style="background-color: #fff; color: #2d3748; border: 1px solid #cbd5e0; width: auto; padding: 10px 20px;">Manage Inventory</button>
             </div>
         </div>
 
-    </section>
-
-    <section class="stats-section">
-
-        <div class="stat-card stock-card">
-            <span>Stock Value</span>
-            <h2 id="dash-value">₹ 0</h2>
-        </div>
-
-        <div class="stat-card udhaar-card">
-            <span>Market Udhaar</span>
-            <h2 id="dash-udhaar">₹ 0</h2>
-        </div>
-
-        <div class="stat-card cash-card">
-            <span>Total Cash</span>
-            <h2 id="dash-cash">₹ 0</h2>
-        </div>
-
-    </section>
-
-    <section class="alert-section">
-
-        <div class="glass-card">
-
-            <h3>Critical Low Stock Alerts</h3>
-
-            <div id="low-stock-content">
-                No critical stock alerts.
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <div class="box-card">
+                <h4 style="color: #718096; margin-bottom: 15px; font-weight: 500;">Stock Value</h4>
+                <h2 id="stock-value-display" style="font-size: 2.2rem; color: #1a202c;">₹ 0</h2>
             </div>
-
-        </div>
-
-    </section>
-
-    <section class="dashboard-grid">
-
-        <div class="glass-card">
-
-            <div class="card-header">
-                <h3>Agency Inventory</h3>
+            
+            <div class="box-card">
+                <h4 style="color: #718096; margin-bottom: 15px; font-weight: 500;">Market Udhaar</h4>
+                <h2 id="udhaar-value-display" style="font-size: 2.2rem; color: #1a202c;">₹ 0</h2>
             </div>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Stock</th>
-                    </tr>
-                </thead>
-
-                <tbody id="product-master-list"></tbody>
-            </table>
-
-        </div>
-
-        <div class="glass-card">
-
-            <div class="card-header">
-                <h3>Retailer Ledger</h3>
+            
+            <div class="box-card">
+                <h4 style="color: #718096; margin-bottom: 15px; font-weight: 500;">Total Cash</h4>
+                <h2 id="total-cash-display" style="font-size: 2.2rem; color: #1a202c;">₹ 0</h2>
             </div>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Shop</th>
-                        <th>Pending Amount</th>
-                    </tr>
-                </thead>
-
-                <tbody id="retailer-master-list"></tbody>
-            </table>
-
         </div>
 
-    </section>
-
-</main>
+    </main>
 
     <script src="js/dashboard.js"></script>
-
 </body>
 </html>
